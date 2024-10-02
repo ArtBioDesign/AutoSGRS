@@ -6,13 +6,13 @@ from os.path import  exists
 # 定义K-mer大小和阈值
 kmer_size = 100
 Repetitive_quantity = 15
-genome_name = "Yarrowia_lipolytica"
+genome_name = "kmar"
 
 # 定义输入FASTA文件和输出Jellyfish文件
-genome_fasta_path = "/home/yanghe/primer/genome_seq_analysis/input/GCA_001761485.1_ASM176148v1_genomic.fna"
-output_path = "/home/yanghe/primer/genome_seq_analysis/output"
+genome_fasta_path = "/hpcfs/fhome/yangchh/workdir/self/editSeqDesign/AutoSGRS/input/GCA_001761485.1_ASM176148v1_genomic.fna"
+output_path = "/hpcfs/fhome/yangchh/workdir/self/editSeqDesign/AutoSGRS/output"
 if not exists(output_path):
-    os.makedirs(output_path)
+    os.makedirs(output_path)  
 
 
 #拼接前序列
@@ -25,7 +25,7 @@ jellyfish_output = os.path.join(output_path, f"{genome_name}_kmer_counts.jf" )
 jellyfish_output_tsv = os.path.join(output_path, f"{genome_name}_kmer_counts.tsv" )
 
 #软件路径
-BOWTIE_PATH = "/home/yanghe/software/bowtie"
+BOWTIE_PATH = "/hpcfs/fhome/yangchh/software/bowtie"
 bowtie_workdir = os.path.join(output_path, "bowtie")
 
 
@@ -200,6 +200,8 @@ def sort_coordinates(coords):
     sorted_coords = sorted(coords, key=lambda x: int(x.split(":")[1].split("-")[0]))
     return ",".join(sorted_coords)
 merge_df = merge_df.groupby("Sequence")["Coordinate"].agg(lambda coords: sort_coordinates(coords)).reset_index()
+merge_df["len"] = merge_df.Sequence.apply(lambda x: len(x))
+merge_df["MatchingNumber"] = merge_df.Coordinate.apply(lambda x: len(x.split(",")))
 
 #9. 输出
 merge_df["Genome"] = genome_name

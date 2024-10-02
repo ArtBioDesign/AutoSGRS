@@ -1,7 +1,7 @@
   
 # AutoSGRS
 ## Project Introduction  
-**AutoSGRS**is a tool that automatically searches for repeated sequences of any frequency in any genome
+**AutoSGRS** is a tool that automatically searches for repeated sequences of any frequency in any genome
 
 ![AutoSGRS]() 
 ## Installation
